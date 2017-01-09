@@ -5,6 +5,7 @@ import org.dasd.ee.tests.Test;
 import org.dasd.ee.tests.TestSettings;
 
 import java.awt.*;
+import java.util.Set;
 
 /**
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +39,7 @@ public class QuadTreeView extends RenderView<QuadTree> {
 
 
 	@Override
-	protected void render(Graphics2D g) {
+	protected void render(Graphics2D g, TestSettings settings, QuadTree algorithm, Set<Rectangle> allBoxes, Rectangle testBox) {
 		g.setColor(Color.GRAY);
 		algorithm.getInnerBoxes().forEach(g::draw);
 	}

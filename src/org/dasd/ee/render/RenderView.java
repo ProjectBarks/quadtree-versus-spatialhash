@@ -30,11 +30,10 @@ import java.util.stream.Stream;
  */
 public abstract class RenderView<T extends IntersectionAlgorithm> extends Container {
 
-	protected JFrame window;
-	protected T algorithm;
-	private Test testCase;
 	@Getter
 	private int testPosition;
+	private JFrame window;
+	private Test testCase;
 	private String title;
 	private TestSettings settings;
 
@@ -61,7 +60,7 @@ public abstract class RenderView<T extends IntersectionAlgorithm> extends Contai
 
 	protected abstract T getAlgorithm(Integer width, Integer height);
 
-	protected void render(Graphics2D g) {
+	protected void render(Graphics2D g, TestSettings settings, T algorithm, Set<Rectangle> allBoxes, Rectangle testBox) {
 	}
 
 	public void setCase(Test testCase) {
@@ -79,7 +78,7 @@ public abstract class RenderView<T extends IntersectionAlgorithm> extends Contai
 		super.paint(g);
 		//Initialize Code
 		Graphics2D g2 = (Graphics2D) g;
-		algorithm = this.getAlgorithm(window.getWidth(), window.getHeight());
+		T algorithm = this.getAlgorithm(window.getWidth(), window.getHeight());
 		Integer[] testPoint = testCase.getPoints()[testPosition];
 		Rectangle testBox = new Rectangle(testPoint[0], testPoint[1], settings.getSize(), settings.getSize());
 		Set<Rectangle> allBoxes = Stream.of(testCase.getPoints())
@@ -92,9 +91,10 @@ public abstract class RenderView<T extends IntersectionAlgorithm> extends Contai
 		g2.fillRect(0, 0, window.getWidth(), window.getHeight());
 
 		//Just in case there wants to be custom render code
-		render(g2);
+		render(g2, settings, algorithm, allBoxes, testBox);
 
 		//Draw the test point
+		g2.setStroke(new BasicStroke(1));
 		g2.setColor(Color.RED);
 		g2.fill(testBox);
 

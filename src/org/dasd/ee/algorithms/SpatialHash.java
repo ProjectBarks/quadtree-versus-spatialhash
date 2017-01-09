@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class SpatialHash implements IntersectionAlgorithm {
 
-	private static int DEFAULT_POWER_OF_TOW = 5;
+	public final static int DEFAULT_POWER_OF_TOW = 5;
 
 	private int shift;
 	private Map<String, ArrayList<Rectangle>> hash;
@@ -61,7 +61,7 @@ public class SpatialHash implements IntersectionAlgorithm {
 		this.hash.clear();
 	}
 
-	private List<String> getHash(Rectangle box) {
+	public List<String> getHash(Rectangle box) {
 		int sx = (int) box.getX() >> shift,
 				sy = (int) box.getY() >> shift,
 				ex = (int) (box.getX() + box.getWidth()) >> shift,

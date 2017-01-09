@@ -4,6 +4,10 @@ import org.dasd.ee.algorithms.SpatialHash;
 import org.dasd.ee.tests.Test;
 import org.dasd.ee.tests.TestSettings;
 
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+
 /**
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,5 +35,22 @@ public class SpatialHashView extends RenderView<SpatialHash> {
 	@Override
 	protected SpatialHash getAlgorithm(Integer width, Integer height) {
 		return new SpatialHash();
+	}
+
+	@Override
+	protected void render(Graphics2D g, TestSettings settings, SpatialHash algorithm, Set<Rectangle> allBoxes, Rectangle testBox) {
+		int bound = settings.getBound();
+		int increment = (int) (bound / Math.floor(bound / Math.pow(2, SpatialHash.DEFAULT_POWER_OF_TOW)));
+
+		g.setColor(Color.GRAY);
+		allBoxes.stream().map(algorithm::getHash).forEach(x -> drawGroup(g, x, increment));
+
+		g.setColor(Color.decode("#349e35"));
+		g.setStroke(new BasicStroke(2));
+		drawGroup(g, algorithm.getHash(testBox), increment);
+	}
+
+	private void drawGroup(Graphics2D g,  List<String> hash, int increment) {
+		hash.stream().map(x -> x.split(":")).forEach(x -> g.drawRect(Integer.parseInt(x[0]) * increment, Integer.parseInt(x[1]) * increment, increment, increment));
 	}
 }

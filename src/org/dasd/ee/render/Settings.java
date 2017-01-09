@@ -39,7 +39,7 @@ public class Settings {
 	private List<RenderView> views;
 
 	public Settings(TestGroup group, RenderView... views) {
-		this(group, 0, views);
+		this(group, 1, views);
 	}
 
 	public Settings(TestGroup group, int chosenCase, RenderView... views) {
@@ -79,8 +79,5 @@ public class Settings {
 			view.setTestPosition(view.getTestPosition() + offset);
 		}
 		testId.setText(String.valueOf(views.get(0).getTestPosition() + 1));
-	}
-
-	public void saveAs() {
 	}
 }
