@@ -37,28 +37,10 @@ public class QuadTree extends Rectangle implements IntersectionAlgorithm {
 	@Getter
 	private QuadTree[] nodes;
 
-	/**
-	 * ideal constructor for making a quadtree that's empty
-	 * <br>
-	 * simply calls the normal constructor with
-	 * <code>
-	 * this(0, 0, 0, width, height)
-	 * </code>
-	 *
-	 * @param width  your game world width in units
-	 * @param height your game world height in units
-	 */
 	public QuadTree(int width, int height) {
 		this(0, 0, 0, width, height);
 	}
 
-	/**
-	 * @param pLevel start at level 0 if you're creating an empty quadtree
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 */
 	private QuadTree(int pLevel, int x, int y, int width, int height) {
 		super(x, y, width, height);
 		this.level = pLevel;
@@ -66,9 +48,6 @@ public class QuadTree extends Rectangle implements IntersectionAlgorithm {
 		this.nodes = new QuadTree[4];
 	}
 
-	/*
-	 * Clears the quadtree
-	 */
 	@Override
 	public void clear() {
 		objects.clear();
@@ -81,13 +60,9 @@ public class QuadTree extends Rectangle implements IntersectionAlgorithm {
 		}
 	}
 
-	/*
-	 * Insert the object into the quadtree. If the node exceeds the capacity, it
-	 * will split and add all objects to their corresponding elements.
-	 */
 	@Override
 	public void insert(Rectangle box) {
-		if (isSplit()) { //If the object is already split then find what quadrant it falls under
+		if (isSplit()) {
 			Integer[] indexs = getIndexs(box);
 
 			if (indexs[0] != -1) {
@@ -95,11 +70,10 @@ public class QuadTree extends Rectangle implements IntersectionAlgorithm {
 
 				return;
 			}
-		} //If the object is not split yet then add it to the node
+		}
 
 		objects.add(box);
 
-		//Split the object if requires are met. Otherwise end
 		if (objects.size() > MAX_OBJECTS && level < MAX_LEVELS) {
 			if (!isSplit()) {
 				split();
@@ -118,9 +92,6 @@ public class QuadTree extends Rectangle implements IntersectionAlgorithm {
 		}
 	}
 
-	/*
-	 * Return all objects that could collide with the given object
-	 */
 	@Override
 	public List<Rectangle> retrieve(Rectangle box) {
 		return this.retrieve(box, new ArrayList<>());

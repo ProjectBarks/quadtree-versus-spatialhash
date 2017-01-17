@@ -74,6 +74,4 @@ public class SpatialHash implements IntersectionAlgorithm {
 		}
 		return keys;
 	}
-
-
 }
